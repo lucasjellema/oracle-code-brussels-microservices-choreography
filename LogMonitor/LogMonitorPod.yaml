@@ -13,11 +13,11 @@ spec:
     imagePullPolicy: IfNotPresent
     env:
     - name: GIT_URL
-      value: "https://github.com/lucasjellema/microservices-choreography-kubernetes-workshop-june2017"
+      value: "https://github.com/lucasjellema/oracle-code-brussels-microservices-choreography"
     - name: APP_PORT
       value: "8115"
     - name: APP_HOME
-      value: "part4/LogMonitor"
+      value: "LogMonitor"
     - name: APP_STARTUP
       value: "LogMonitor.js"
     - name: KAFKA_HOST
