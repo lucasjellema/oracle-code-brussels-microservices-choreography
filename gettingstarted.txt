@@ -1,0 +1,34 @@
+start VirtualBox
+run Kafka Workshop Light
+
+minikube start
+minikube dashboard
+minikube ip
+--> say 192.168.99.100
+
+kubectl get services
+
+get port for tweetreceiver (say 31276)
+
+start ngrok:
+in directory C:\Users\lucas_j\Downloads
+double click ngrok.exe
+
+command line opens
+ngrok http <minikube ip>:<tweetreceiver port>
+
+for example:
+ngrok http 192.168.99.100:31276
+
+ngrok assigns url:
+http://79f9a104.ngrok.io
+
+use URL in IFTTT recipe
+https://ifttt.com/applets/52919366d-if-new-tweet-from-search-for-oraclecode-then-make-a-web-request-to-cloud-microservice-platform-event-bridge
+
+, instead of
+https://artist-enricher-api-partnercloud17.apaas.us6.oraclecloud.com/eventBridge/ifttt-tweet
+
+http://79f9a104.ngrok.io:31276/tweet
+
+
