@@ -28,12 +28,12 @@ function handleWorkflowEvent(eventMessage) {
     message.workflowConversationIdentifier = "OracleCodeTweetProcessor" + new Date().getTime();
     eventBusPublisher.publishEvent(message.workflowConversationIdentifier, message, workflowEventsTopic);
 
+    localLoggerAPI.log("Initialized new workflow  for tweet "+message.payload.text+" by "+ message.payload.author +" - (workflowConversationIdentifier:" + message.workflowConversationIdentifier + ")"
+        , APP_NAME, "info");
     localLoggerAPI.log("Initialized new workflow OracleCodeTweetProcessor triggered by NewTweetEvent; stored workflowevent plus routing slip in cache under key " + message.workflowConversationIdentifier + " - (workflowConversationIdentifier:"
       + message.workflowConversationIdentifier + ")"
       , APP_NAME, "info");
 
-    localLoggerAPI.log("Initialized new workflow  - (workflowConversationIdentifier:" + event.workflowConversationIdentifier + ")"
-        , APP_NAME, "info");
 
     // PUT Workflow Event in Cache under workflow event identifier
     localCacheAPI.putInCache(message.workflowConversationIdentifier, message,
