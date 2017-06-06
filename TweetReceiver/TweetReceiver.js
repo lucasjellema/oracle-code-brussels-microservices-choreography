@@ -5,7 +5,7 @@ var http = require('http'),
   eventBusPublisher = require("./EventPublisher.js");
 
 var PORT = process.env.APP_PORT || 8095;
-var APP_VERSION = "0.1.2"
+var APP_VERSION = "0.1.3"
 var APP_NAME = "TweetReceiver"
 var workflowEventsTopic = process.env.KAFKA_TOPIC ||"workflowEvents";
 
@@ -23,7 +23,7 @@ server.listen(PORT, function () {
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(bodyParser.json({ type: '*/*' }));
 // perhaps use bodyParser.text() instead of .json
-// then parse the content after replacing /n characters
+// then parse the content after replacing /n and /n characters
 app.use(bodyParser.text({ type: '*/*' }));
 app.get('/about', function (req, res) {
   res.writeHead(200, { 'Content-Type': 'text/html' });

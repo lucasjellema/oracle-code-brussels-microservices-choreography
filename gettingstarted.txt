@@ -6,6 +6,7 @@ minikube dashboard
 minikube ip
 --> say 192.168.99.100
 
+
 kubectl get services
 
 get port for tweetreceiver (say 31276)
@@ -32,3 +33,16 @@ https://artist-enricher-api-partnercloud17.apaas.us6.oraclecloud.com/eventBridge
 http://79f9a104.ngrok.io:31276/tweet
 
 
+Starting from scratch (fresh minikube cluster):
+
+kubectl run redis-cache --image=redis --port=6379
+kubectl expose deployment redis-cache --type=ClusterIP
+
+
+Container Cloud 
+- TweetCollector
+http://129.144.150.140:8005/tweets
+
+
+Local:
+TweetRetriever - reads from TweetCollector and published to TweetReceiver for new tweets (useful when ngrok does not work and IFTTT directly to TweetReceiver fails)

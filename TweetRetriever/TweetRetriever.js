@@ -5,7 +5,7 @@ var http = require('http'),
 
 var refreshInterval = 10; //seconds cycle in checking TweetCollector for events
 
-var APP_VERSION = "0.8.2"
+var APP_VERSION = "0.8.3"
 var APP_NAME = "TweetRetriever"
 
 // url for tweet collector on Oracle Container Cloud
