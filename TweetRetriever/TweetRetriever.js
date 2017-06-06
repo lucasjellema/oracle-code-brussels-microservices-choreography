@@ -5,7 +5,7 @@ var http = require('http'),
 
 var refreshInterval = 10; //seconds cycle in checking TweetCollector for events
 
-var APP_VERSION = "0.8.3"
+var APP_VERSION = "0.8.2"
 var APP_NAME = "TweetRetriever"
 
 // url for tweet collector on Oracle Container Cloud
@@ -32,17 +32,25 @@ initHeartbeat(refreshInterval)
 function checkTweetCollector() {
   // make request to tweet collector
   request(tweet_collector_url, function (error, response, body) {
-    var tweets = JSON.parse(body).tweets;
-    for (i = 0; i < tweets.length; i++) {
-      if (tweets[i].text === latestTweet) {
-        doneAll = true;
-        break;
+    if (error) {
+      console.error("Failed to gather tweets from collector : " + error);
+    } else {
+      try {
+        var tweets = JSON.parse(body).tweets;
+        for (i = 0; i < tweets.length; i++) {
+          if (tweets[i].text === latestTweet) {
+            doneAll = true;
+            break;
+          }
+          // here would go the code to publish tweet to TweetReceiver
+          //  postTweetToReceiver(tweets[i]);
+          console.log("tweet: " + i + " : " + tweets[i].text);
+        }//for
+        latestTweet = tweets[0].text;
+      } catch (e) {
+        console.error("failed to process tweets because of " + e);
       }
-      // here would go the code to publish tweet to TweetReceiver
-      postTweetToReceiver(tweets[i]);
-      console.log("tweet: " + i + " : " + tweets[i].text);
-    }//for
-    latestTweet = tweets[0].text;
+    }//else (no error)
   });
 }//checkTweetCollector
 
