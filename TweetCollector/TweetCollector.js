@@ -4,7 +4,7 @@ var http = require('http'),
   bodyParser = require('body-parser');
 
 var PORT = process.env.APP_PORT || 8125;
-var APP_VERSION = "0.1.1"
+var APP_VERSION = "0.1.3"
 var APP_NAME = "TweetCollector"
 
 var moduleName = "TweetCollector";
@@ -21,7 +21,10 @@ server.listen(PORT, function () {
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ type: '*/*' }));
+//app.use(bodyParser.json({ type: '*/*' }));
+// perhaps use bodyParser.text() instead of .json
+// then parse the content after replacing /n and /n characters
+app.use(bodyParser.text({ type: '*/*' }));
 app.get('/about', function (req, res) {
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.write("About " + APP_NAME + ", Version " + APP_VERSION);
@@ -54,7 +57,13 @@ app.get('/ping', function (req, res) {
 
 app.post('/tweet', function (req, res) {
   console.log('Tweet Receiver TWEET POST');
-  console.log('body in request' + JSON.stringify(req.body));
+    // now process text in req.body
+  var tweetText = req.body;
+  // correct json errors (remove \n and \r characters (ascii 13 and 10))
+  tweetText = tweetText.replace(/\n/g,"");
+  tweetText = tweetText.replace(/\r/g,"");
+  // then create parse JSON into variable
+  var tweet = JSON.parse(tweetText);
   postNewTweet(req, res, req.body);
   res.end();
 });//post messages
